@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Blog.Models.Posts>
+@{
+    ViewData["Title"] = "Posts";
+    Layout = "_AdminLayout";
+}
+
+<!-- Admin Content -->
+<div class="admin-content clearfix">
+    <div class="button-group">
+        <a asp-controller="Admin" asp-action="CreatePost" class="btn btn-sm">Add Post</a>
+        <a asp-controller="Admin" asp-action="Posts" class="btn btn-sm">Manage Posts</a>
+    </div>
+    <div class="">
+        <h2 style="text-align: center;">Manage Posts</h2>
+        <table>
+            <thead>
+            <th>N</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th colspan="3">Action</th>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr class="rec">
+                    <td>1</td>
+                    <td>
+                        <a href="#">@item.Title</a>
+                    </td>
+                    <td>@item.Name</td>
+                    <td>
+                        <a asp-controller="Admin" asp-action="EditPost" asp-route-id="@item.Id" class="edit">
+                            Edit
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-controller="Admin" asp-action="DeletePost" asp-route-id="@item.Id" class="delete">
+                            Delete
+                        </a>
+                    </td>
+                    @if (item.Published == false)
+                    {
+                        <td>
+                            <a asp-controller="Admin" asp-action="PublishPost" asp-route-id="@item.Id" class="publish">
+                                Publish
+                            </a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a asp-controller="Admin" asp-action="UnpublishPost" asp-route-id="@item.Id" class="unpublish">
+                                Unpublish
+                            </a>
+                        </td>
+                    }
+
+                </tr>
+                }
+
+                
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<!-- // Admin Content -->

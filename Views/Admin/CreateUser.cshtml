@@ -1,0 +1,53 @@
+﻿@model Blog.Models.ViewModels.UserVM
+@{
+    ViewData["Title"] = "Create User";
+    Layout = "_AdminLayout";
+}
+
+<div class="admin-content clearfix">
+    <div class="button-group">
+        <a asp-controller="Admin" asp-action="CreateUser" class="btn btn-sm">Add User</a>
+        <a asp-controller="Admin" asp-action="Users" class="btn btn-sm">Manage Users</a>
+    </div>
+    <div class="">
+        <h2 style="text-align: center;">Create User</h2>
+
+        <form asp-action="CreateUser" method="post">
+            <div asp-validation-summary="All" style="color:red;"></div>
+
+            <!-- <div class="msg error">
+      <li>Username required</li>
+    </div> -->
+            <div class="input-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="text-input">
+            </div>
+            <div class="input-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="text-input">
+            </div>
+            <div class="input-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="text-input">
+            </div>
+            <div class="input-group">
+                <label asp-for="ConfirmPassword"></label>
+                <input asp-for="ConfirmPassword" class="text-input">
+            </div>
+            <div class="input-group">
+                <label asp-for="RoleId"></label>
+                <select class="text-input" asp-for="RoleId" asp-items="@ViewBag.RolesList">
+                    <option disabled>Please Select a Topic</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <button type="submit" name="save-user" class="btn">Save User</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

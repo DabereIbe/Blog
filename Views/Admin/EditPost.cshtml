@@ -1,0 +1,56 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model Blog.Models.Posts
+
+@inject UserManager<AppUser> UserManager
+@{
+    ViewData["Title"] = "Edit Post";
+    Layout = "_AdminLayout";
+}
+
+<!-- Admin Content -->
+<div class="admin-content clearfix">
+    <div class="button-group">
+        <a asp-controller="Admin" asp-action="CreatePost" class="btn btn-sm">Add Post</a>
+        <a asp-controller="Admin" asp-action="Posts" class="btn btn-sm">Manage Posts</a>
+    </div>
+    <div class="">
+        <h2 style="text-align: center;">Edit Post</h2>
+
+        <form asp-action="EditPost" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" style="color:red;"></div>
+
+            <div class="input-group">
+                <label asp-for="Title"></label>
+                <input asp-for="Title" class="text-input">
+            </div>
+            <div class="input-group">
+                <label asp-for="Body"></label>
+                <textarea class="text-input" asp-for="Body" id="body"></textarea>
+            </div>
+            <div class="input-group">
+                <label asp-for="Image"></label>
+                <input class="text-input" type="file" name="file" id="body">
+            </div>
+            <div class="input-group">
+                <label asp-for="TopicId"></label>
+                <select class="text-input" asp-for="TopicId" asp-items="@ViewBag.TopicList">
+                    <option disabled>Please Select a Topic</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>
+                    <input asp-for="Published" /> Publish
+                </label>
+            </div>
+            <div class="input-group">
+                <button type="submit" name="save-post" asp-route-username="@UserManager.GetUserName(User)" class="btn">Save Post</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+<!-- // Admin Content -->
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
