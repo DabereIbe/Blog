@@ -43,11 +43,14 @@
             <p>
                 @foreach (var provider in Model.ExternalLogins)
                 {
-                    <ul>
-                        <li>
-                            <button type="submit" class="btn" name="provider" style="padding-bottom:5px;" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="fas fa-@provider.DisplayName"></i> @provider.DisplayName</button>
-                        </li>
-                    </ul>
+                    if (provider.DisplayName == "Google OpenIdConnect")
+                    {
+                        <button type="submit" class="btn" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="fas fa-@provider.DisplayName"></i> Google</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="fas fa-@provider.DisplayName"></i> @provider.DisplayName</button>
+                    }
                 }
             </p>
         </div>

@@ -15,6 +15,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Blog.Services;
+using Google.Apis.Auth.AspNetCore3;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Blog
 {
@@ -33,22 +35,45 @@ namespace Blog
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IEmailSender, MailkitEmailSender>();
             services.AddIdentity<AppUser, AppRole>(options => {
-                options.SignIn.RequireConfirmedAccount = true;
-                options.SignIn.RequireConfirmedEmail = true;
+                options.SignIn.RequireConfirmedAccount = false;
+                options.SignIn.RequireConfirmedEmail = false;
                 options.Password.RequiredLength = 8;
             }).AddDefaultTokenProviders().AddDefaultUI().AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddAuthentication()
+            services.AddAuthentication(o =>
+            {
+                // This forces challenge results to be handled by Google OpenID Handler, so there's no
+                // need to add an AccountController that emits challenges for Login.
+                o.DefaultChallengeScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
+                // This forces forbid results to be handled by Google OpenID Handler, which checks if
+                // extra scopes are required and does automatic incremental auth.
+                o.DefaultForbidScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
+                // Default scheme that will handle everything else.
+                // Once a user is authenticated, the OAuth2 token info is stored in cookies.
+                o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddCookie()
+            .AddGoogleOpenIdConnect(options =>
+            {
+                options.ClientId = "718894001344-m761st70fq687fmvr2sgs96qnfq12vt5.apps.googleusercontent.com";
+                options.ClientSecret = "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";
+            })
+            .AddFacebook(options =>
+            {
+                options.AppId = "553828222903766";
+                options.AppSecret = "ef002140258422287508a503791f63f3";
+            });
+            /*services.AddAuthentication()
                 .AddGoogle(options =>
                 {
-                    options.ClientId = "718894001344-v0n13mg1jv4hf012qr1s6e5nllkcq5lp.apps.googleusercontent.com";
-                    options.ClientSecret = "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";
+                    options.ClientId = "718894001344-m761st70fq687fmvr2sgs96qnfq12vt5.apps.googleusercontent.com";
+                    options.ClientSecret = "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";
                     options.AuthorizationEndpoint += "?prompt=consent";
                 })
                 .AddFacebook(options =>
                 {
                     options.AppId = "553828222903766";
                     options.AppSecret = "ef002140258422287508a503791f63f3";
-                });
+                });*/
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -74,6 +99,18 @@ namespace Blog
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                if (!dbContext.Role.Any())
+                {
+                    roleManager.CreateAsync(new AppRole { Id = Guid.NewGuid().ToString(), Name = "Admin" });
+                    roleManager.CreateAsync(new AppRole { Id = Guid.NewGuid().ToString(), Name = "Reader"});
+                    Console.WriteLine("Roles Successfully Created");
+                }
+            }
 
             app.UseEndpoints(endpoints =>
             {
