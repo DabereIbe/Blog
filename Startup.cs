@@ -54,26 +54,15 @@ namespace Blog
             .AddCookie()
             .AddGoogleOpenIdConnect(options =>
             {
-                options.ClientId = "718894001344-m761st70fq687fmvr2sgs96qnfq12vt5.apps.googleusercontent.com";
-                options.ClientSecret = "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";
+                options.ClientId = "";
+                options.ClientSecret = "";
             })
             .AddFacebook(options =>
             {
-                options.AppId = "553828222903766";
-                options.AppSecret = "ef002140258422287508a503791f63f3";
+                options.AppId = "";
+                options.AppSecret = "";
             });
-            /*services.AddAuthentication()
-                .AddGoogle(options =>
-                {
-                    options.ClientId = "718894001344-m761st70fq687fmvr2sgs96qnfq12vt5.apps.googleusercontent.com";
-                    options.ClientSecret = "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";
-                    options.AuthorizationEndpoint += "?prompt=consent";
-                })
-                .AddFacebook(options =>
-                {
-                    options.AppId = "553828222903766";
-                    options.AppSecret = "ef002140258422287508a503791f63f3";
-                });*/
+            
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
