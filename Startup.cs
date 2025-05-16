@@ -39,6 +39,10 @@ namespace Blog
                 options.SignIn.RequireConfirmedEmail = false;
                 options.Password.RequiredLength = 8;
             }).AddDefaultTokenProviders().AddDefaultUI().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.ConfigureApplicationCookie(opt =>
+            {
+                opt.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Identity/Account/AccessDenied");
+            });
             services.AddAuthentication(o =>
             {
                 // This forces challenge results to be handled by Google OpenID Handler, so there's no
@@ -54,13 +58,13 @@ namespace Blog
             .AddCookie()
             .AddGoogleOpenIdConnect(options =>
             {
-                options.ClientId = "";
-                options.ClientSecret = "";
+                options.ClientId = "718894001344-m761st70fq687fmvr2sgs96qnfq12vt5.apps.googleusercontent.com";
+                options.ClientSecret = "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";
             })
             .AddFacebook(options =>
             {
-                options.AppId = "";
-                options.AppSecret = "";
+                options.AppId = "553828222903766";
+                options.AppSecret = "ef002140258422287508a503791f63f3";
             });
             
             services.AddControllersWithViews();
