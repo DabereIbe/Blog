@@ -274,6 +274,7 @@ namespace Blog.Controllers
                     file.CopyTo(fileStream);
                 }
                 model.Image = fileName;
+                model.DateCreated = objFromDB.DateCreated;
                 model.DateUpdated = DateTime.Now.ToLongDateString();
                 model.Name = username;
                 _db.Posts.Update(model);
