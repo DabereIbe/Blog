@@ -36,7 +36,7 @@ namespace Blog.Controllers
             {
                 vm.Posts = _db.Posts.Include(x => x.Topics).Where(s => s.Title.Contains(searchString) || s.Name.Contains(searchString) || s.TopicId.ToString().Contains(searchString));
             }
-            if(topicId != null)
+            else if (topicId != null)
             {
                 vm.Posts = _db.Posts.Include(x => x.Topics).Where(s => s.TopicId.ToString().Contains(topicId.ToString()));
             }
