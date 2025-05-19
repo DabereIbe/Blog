@@ -58,8 +58,9 @@
                             <i class="fa fa-calendar"></i> @item.DateCreated
                         </div>
                         <p class="post-body">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus expedita tempora
-                            qui sunt! Ipsum nihil unde obcaecati.
+                            @Html.Raw(item.Body.Substring(0, 150))...
+                            @* Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus expedita tempora
+                            qui sunt! Ipsum nihil unde obcaecati. *@
                         </p>
                         <a asp-controller="Home" asp-action="Post" asp-route-id="@item.Id" class="read-more">Read More</a>
                     </div>

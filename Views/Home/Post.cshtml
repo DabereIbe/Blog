@@ -19,7 +19,7 @@
         <!-- Popular Posts -->
         <div class="section popular">
             <h2>Popular</h2>
-            @foreach (var item in Model.ListOfPosts)
+            @foreach (var item in Model.ListOfPosts.OrderBy(x => Guid.NewGuid()).Take(3))
             {
                 <div class="post clearfix">
                     <img src="~/images/@item.Image" asp-append-version="true">
