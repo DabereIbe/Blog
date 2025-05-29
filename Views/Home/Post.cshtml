@@ -1,0 +1,49 @@
+﻿@model Blog.Models.ViewModels.PostVM
+@{
+    ViewData["Title"] = Model.Posts.Title;
+    Layout = "_Layout";
+}
+
+<!-- content -->
+<div class="content clearfix">
+    <div class="page-content single">
+        <h2 style="text-align: center;">@Model.Posts.Title</h2>
+        <br>
+
+        <p>@Html.Raw(Model.Posts.Body)</p>
+
+    </div>
+
+    <div class="sidebar single">
+        
+        <!-- Popular Posts -->
+        <div class="section popular">
+            <h2>Popular</h2>
+            @foreach (var item in Model.ListOfPosts.OrderBy(x => Guid.NewGuid()).Take(3))
+            {
+                <div class="post clearfix">
+                    <img src="~/images/@item.Image" asp-append-version="true">
+                    <a asp-controller="Home" asp-action="Post" asp-route-id="@item.Id" class="title">@item.Title</a>
+                </div>
+            }
+
+        </div>
+        <!-- // Popular Posts -->
+        <!-- topics -->
+        <div class="section topics">
+            <h2>Topics</h2>
+            <ul>
+                @foreach (var item in Model.Topics)
+                {
+                    <a href="#">
+                    <li>@item.Name</li>
+                    </a>
+                }
+
+            </ul>
+        </div>
+        <!-- // topics -->
+
+    </div>
+</div>
+<!-- // content -->

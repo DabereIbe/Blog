@@ -1,0 +1,36 @@
+﻿@model Blog.Models.Topics
+@{
+    ViewData["Title"] = "Create Topic";
+    Layout = "_AdminLayout";
+}
+
+<div class="admin-content clearfix">
+    <div class="button-group">
+        <a asp-controller="Admin" asp-action="CreateTopic" class="btn btn-sm">Add Topic</a>
+        <a asp-controller="Admin" asp-action="Topics" class="btn btn-sm">Manage Topics</a>
+    </div>
+    <div class="">
+        <h2 style="text-align: center;">Create Topic</h2>
+
+        <form asp-action="CreateTopic" method="post">
+            <div asp-validation-summary="All" style="color:red;"></div>
+
+            <div class="input-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="text-input">
+            </div>
+            <div class="input-group">
+                <label asp-for="Description"></label>
+                <textarea class="text-input" asp-for="Description" id="description"></textarea>
+            </div>
+            <div class="input-group">
+                <button type="submit" name="save-topic" class="btn">Save Topic</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

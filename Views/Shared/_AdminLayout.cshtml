@@ -1,0 +1,81 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Blog.Models
+
+
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+    <!-- Font Awesome -->
+    <link href="~/lib/fontawesome-free-5.15.3-web/css/all.min.css" rel="stylesheet" />
+
+    <!-- Custom Styles -->
+    <link href="~/css/site.css" rel="stylesheet" />
+
+    <!-- Admin Styling -->
+    <link href="~/css/admin.css" rel="stylesheet" />
+</head>
+<body>
+    <div>
+        <header class="clearfix">
+            <div class="logo">
+                <!-- <img src="images/logo-placeholder.png" alt="Logo"> -->
+            </div>
+            <div class="fa fa-reorder menu-toggle"></div>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="#" class="userinfo">
+                            <i class="fa fa-user"></i>
+                            @UserManager.GetUserName(User)
+                            <i class="fa fa-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown">
+                            <li><a asp-controller="Home" asp-action="Index">Home Page</a></li>
+                            <li>
+                                <a asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" class="logout">Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <!-- // header -->
+
+        <div class="admin-wrapper clearfix">
+            <!-- Left Sidebar -->
+            <div class="left-sidebar">
+                <ul>
+                    <li><a asp-controller="Admin" asp-action="Posts">Manage Posts</a></li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li><a asp-controller="Admin" asp-action="Topics">Manage Topics</a></li>
+                        <li><a asp-controller="Admin" asp-action="Users">Manage Users</a></li>
+                        <li><a asp-controller="Admin" asp-action="Roles">Manage Roles</a></li>
+                    }
+                </ul>
+            </div>
+            <!-- // Left Sidebar -->
+
+            @RenderBody()
+
+        </div>
+
+
+        <!-- JQuery -->
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+        <!-- CKEditor 5 -->
+        <script src="~/lib/ckeditor5-build-classic/ckeditor.js"></script>
+
+        <!-- Custome Scripts -->
+        <script src="~/js/site.js" asp-append-version="true"></script>
+
+        @await RenderSectionAsync("Scripts", required: false)
+    </div>
+</body>
+</html>

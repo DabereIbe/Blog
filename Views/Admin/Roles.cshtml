@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Blog.Models.AppRole>
+@{
+    ViewData["Title"] = "Roles";
+    Layout = "_AdminLayout";
+}
+
+<div class="admin-content clearfix">
+    <div class="button-group">
+        <a asp-controller="Admin" asp-action="CreateRole" class="btn btn-sm">Add Role</a>
+        <a asp-controller="Admin" asp-action="Roles" class="btn btn-sm">Manage Roles</a>
+    </div>
+    <div class="">
+        <h2 style="text-align: center;">Manage Role</h2>
+
+        <table>
+            <thead>
+            <th>N</th>
+            <th>Name</th>
+            <th colspan="2">Action</th>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="rec">
+                        <td>1</td>
+                        <td>
+                            <a href="#">@item.Name</a>
+                        </td>
+                        <td>
+                            <a asp-controller="Admin" asp-action="EditRole" asp-route-id="@item.Id" class="edit">
+                                Edit
+                            </a>
+                        </td>
+                        <td>
+                            <a asp-controller="Admin" asp-action="DeleteRole" asp-route-id="@item.Id" class="delete">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
